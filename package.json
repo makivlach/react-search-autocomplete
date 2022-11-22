@@ -17,6 +17,9 @@
     "type": "git",
     "url": "git+https://github.com/sickdyd/react-search-autocomplete.git"
   },
+  "publishConfig": {
+    "@makivlach:registry": "https://npm.pkg.github.com"
+  },
   "keywords": [
     "search",
     "searchbox",
