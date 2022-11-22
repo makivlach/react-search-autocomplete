@@ -16,12 +16,14 @@ export interface ResultsProps<T> {
   resultStringKeyName: string
   showNoResultsFlag?: boolean
   showNoResultsText?: string
+  changeNameOnSelect?: boolean
 }
 
 export default function Results<T>({
   results = [] as any,
   onClick,
   setSearchString,
+  changeNameOnSelect,
   showIcon,
   maxResults,
   resultStringKeyName = 'name',
@@ -39,7 +41,9 @@ export default function Results<T>({
 
   const handleClick = (result: WithStringKeyName) => {
     onClick(result)
-    setSearchString(result[resultStringKeyName])
+    if (changeNameOnSelect) {
+      setSearchString(result[resultStringKeyName])
+    }
   }
 
   const handleMouseDown = ({

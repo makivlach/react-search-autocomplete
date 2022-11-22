@@ -4,7 +4,7 @@ import React, {
   FocusEvent,
   FocusEventHandler, ForwardedRef, forwardRef,
   KeyboardEvent,
-  useEffect,
+  useEffect, useMemo,
   useState
 } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
@@ -31,6 +31,8 @@ export interface ReactSearchAutocompleteProps<T> {
   maxResults?: number
   placeholder?: string
   autoFocus?: boolean
+  manualSearch?: boolean
+  changeNameOnSelect?: boolean
   styling?: DefaultTheme
   resultStringKeyName?: string
   inputSearchString?: string
@@ -50,8 +52,10 @@ function ReactSearchAutocomplete<T>({
   onFocus = () => {},
   onClear = () => {},
   onChange = () => {},
+  manualSearch,
   showIcon = true,
   showClear = true,
+  changeNameOnSelect = true,
   maxResults = MAX_RESULTS,
   placeholder = '',
   autoFocus = false,
@@ -76,6 +80,7 @@ function ReactSearchAutocomplete<T>({
   const [isTyping, setIsTyping] = useState<boolean>(false)
   const [showNoResultsFlag, setShowNoResultsFlag] = useState<boolean>(false)
   const [hasFocus, setHasFocus] = useState<boolean>(false)
+
 
   useEffect(() => {
     setSearchString(inputSearchString)
@@ -144,10 +149,19 @@ function ReactSearchAutocomplete<T>({
     [items]
   )
 
+
+  useMemo(() => {
+    if (manualSearch) {
+      handleOnSearch(searchString)
+    }
+  }, [manualSearch])
+
   const handleOnClick = (result: Item<T>) => {
     eraseResults()
     onSelect(result)
-    setSearchString(result[resultStringKeyName])
+    if (changeNameOnSelect) {
+      setSearchString(result[resultStringKeyName])
+    }
     setHighlightedItem(0)
   }
 
@@ -164,7 +178,9 @@ function ReactSearchAutocomplete<T>({
     const keyword = target.value
 
     setSearchString(keyword)
-    handleOnSearch(keyword)
+    if (typeof manualSearch !== 'undefined') {
+      handleOnSearch(keyword)
+    }
     setIsTyping(true)
 
     if (isSearchComplete) {
@@ -243,6 +259,7 @@ function ReactSearchAutocomplete<T>({
           <Results
             results={results}
             onClick={handleOnClick}
+            changeNameOnSelect={changeNameOnSelect}
             setSearchString={setSearchString}
             showIcon={showIcon}
             maxResults={maxResults}
