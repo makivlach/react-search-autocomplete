@@ -1,8 +1,8 @@
 {
-  "name": "react-search-autocomplete",
+  "name": "@makivlach/react-search-autocomplete",
   "author": "Reale Roberto Josef Antonio",
   "license": "MIT",
-  "version": "8.1.1",
+  "version": "8.1.2",
   "description": "A search box for React",
   "main": "dist/index.js",
   "scripts": {
@@ -15,10 +15,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sickdyd/react-search-autocomplete.git"
+    "url": "https://github.com/makivlach/react-search-autocomplete"
   },
   "publishConfig": {
-    "@makivlach:registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com"
   },
   "keywords": [
     "search",
